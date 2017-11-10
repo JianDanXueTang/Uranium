@@ -25,6 +25,7 @@ class BackendState(IntEnum):
     Processing = 2
     Done = 3
     Error = 4
+    Disabled = 5
 
 ##      Base class for any backend communication (separate piece of software).
 #       It makes use of the Socket class from libArcus for the actual communication bits.
@@ -199,7 +200,6 @@ class Backend(PluginObject):
         else:
             Logger.log("w", "Unhandled socket error %s", str(error))
 
-        sleep(0.1)  # Hack: Without a sleep this can deadlock the application spamming error messages.
         self._createSocket()
 
     ##  Creates a socket and attaches listeners.

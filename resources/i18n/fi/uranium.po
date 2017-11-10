@@ -1,41 +1,23 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Uranium
+# Copyright (C) 2017 Ultimaker
+# This file is distributed under the same license as the Uranium package.
+# Ruben Dulek <r.dulek@ultimaker.com>, 2017.
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-28 11:00+0100\n"
-"PO-Revision-Date: 2017-01-27 16:32+0100\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Project-Id-Version: Uranium 2.6\n"
+"Report-Msgid-Bugs-To: r.dulek@ultimaker.com\n"
+"POT-Creation-Date: 2017-05-30 15:41+0200\n"
+"PO-Revision-Date: 2017-06-07 16:04+0200\n"
+"Last-Translator: Bothof <info@bothof.nl>\n"
+"Language-Team: Finnish <info@bothof.nl>\n"
+"Language: Finnish\n"
+"Lang-Code: fi\n"
+"Country-Code: FI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: /home/ruben/Projects/Uranium/plugins/LocalFileOutputDevice/LocalFileOutputDevicePlugin.py:45
-msgctxt "@action:button Preceded by 'Ready to'."
-msgid "Save to File"
-msgstr "Tallenna tiedostoon"
-
-#: /home/ruben/Projects/Uranium/UM/Qt/qml/UM/Preferences/ProfilesPage.qml:92
-msgctxt "@action:button"
-msgid "Discard current changes"
-msgstr "Hylkää tehdyt muutokset"
-
-#: /home/ruben/Projects/Uranium/plugins/Views/WireframeView/__init__.py:13
-msgctxt "@label"
-msgid "Wireframe View"
-msgstr "Rautalankanäkymä"
-
-#: /home/ruben/Projects/Uranium/plugins/Views/WireframeView/__init__.py:16
-msgctxt "@info:whatsthis"
-msgid "Provides a simple wireframe view."
-msgstr "Näyttää yksinkertaisen rautalankanäkymän."
 
 #: /home/ruben/Projects/Uranium/plugins/Views/SimpleView/__init__.py:13
 msgctxt "@label"
@@ -58,10 +40,9 @@ msgid "File Logger"
 msgstr "Tiedonkeruuohjelma"
 
 #: /home/ruben/Projects/Uranium/plugins/FileLogger/__init__.py:16
-#: /home/ruben/Projects/Uranium/plugins/ConsoleLogger/__init__.py:16
 msgctxt "@info:whatsthis"
-msgid "Outputs log information to the console."
-msgstr "Lähettää lokitiedot konsoliin."
+msgid "Outputs log information to a file in your settings folder."
+msgstr "Lähettää lokitiedot asetuskansion tiedostoon."
 
 #: /home/ruben/Projects/Uranium/plugins/FileHandlers/STLReader/__init__.py:12
 msgctxt "@label"
@@ -129,6 +110,11 @@ msgctxt "@label"
 msgid "Console Logger"
 msgstr "Konsolin tiedonkeruu"
 
+#: /home/ruben/Projects/Uranium/plugins/ConsoleLogger/__init__.py:16
+msgctxt "@info:whatsthis"
+msgid "Outputs log information to the console."
+msgstr "Lähettää lokitiedot konsoliin."
+
 #: /home/ruben/Projects/Uranium/plugins/UpdateChecker/__init__.py:12
 msgctxt "@label"
 msgid "Update Checker"
@@ -139,108 +125,41 @@ msgctxt "@info:whatsthis"
 msgid "Checks for updates of the software."
 msgstr "Tarkistaa, onko ohjelmistopäivityksiä saatavilla."
 
-#: /home/ruben/Projects/Uranium/plugins/UpdateChecker/UpdateChecker.py:47
+#: /home/ruben/Projects/Uranium/plugins/UpdateChecker/UpdateCheckerJob.py:51
 msgctxt "@info"
 msgid "Could not access update information."
 msgstr "Päivitystietoja ei löytynyt."
 
-#: /home/ruben/Projects/Uranium/plugins/UpdateChecker/UpdateChecker.py:58
-#: /home/ruben/Projects/Uranium/plugins/UpdateChecker/UpdateChecker.py:63
+#: /home/ruben/Projects/Uranium/plugins/UpdateChecker/UpdateCheckerJob.py:62
+#: /home/ruben/Projects/Uranium/plugins/UpdateChecker/UpdateCheckerJob.py:67
 msgctxt "@info"
 msgid "The version you are using does not support checking for updates."
 msgstr "Käyttämäsi versio ei tue päivitysten tarkistusta."
 
-#: /home/ruben/Projects/Uranium/plugins/UpdateChecker/UpdateChecker.py:74
+#: /home/ruben/Projects/Uranium/plugins/UpdateChecker/UpdateCheckerJob.py:78
 msgctxt "@info"
 msgid "A new version is available!"
 msgstr "Uusi versio on saatavilla!"
 
-#: /home/ruben/Projects/Uranium/plugins/UpdateChecker/UpdateChecker.py:75
+#: /home/ruben/Projects/Uranium/plugins/UpdateChecker/UpdateCheckerJob.py:79
 msgctxt "@action:button"
 msgid "Download"
 msgstr "Lataa"
 
-#: /home/ruben/Projects/Uranium/plugins/UpdateChecker/UpdateChecker.py:87
+#: /home/ruben/Projects/Uranium/plugins/UpdateChecker/UpdateCheckerJob.py:91
 msgctxt "@info"
-msgid "An exception occured while parsing the JSON file."
-msgstr "JSON-tiedostoa jäsennettäessä tapahtui poikkeus."
+msgid "An exception occurred while checking for updates."
+msgstr "Päivitysten tarkistuksen yhteydessä tapahtui poikkeus."
 
-#: /home/ruben/Projects/Uranium/plugins/UpdateChecker/UpdateChecker.py:91
+#: /home/ruben/Projects/Uranium/plugins/UpdateChecker/UpdateCheckerJob.py:95
 msgctxt "@info"
 msgid "No new version was found."
 msgstr "Uutta versiota ei löytynyt."
 
-#: /home/ruben/Projects/Uranium/plugins/UpdateChecker/UpdateChecker.py:102
+#: /home/ruben/Projects/Uranium/plugins/UpdateChecker/UpdateChecker.py:23
 msgctxt "@item:inmenu"
 msgid "Check for Updates"
 msgstr "Tarkista päivitykset"
-
-#: /home/ruben/Projects/Uranium/plugins/LocalFileOutputDevice/LocalFileOutputDevicePlugin.py:44
-msgctxt "@item:inmenu"
-msgid "Local File"
-msgstr "Paikallinen tiedosto"
-
-#: /home/ruben/Projects/Uranium/plugins/LocalFileOutputDevice/LocalFileOutputDevicePlugin.py:46
-msgctxt "@info:tooltip"
-msgid "Save to File"
-msgstr "Tallenna tiedostoon"
-
-#: /home/ruben/Projects/Uranium/plugins/LocalFileOutputDevice/LocalFileOutputDevicePlugin.py:65
-msgctxt "@title:window"
-msgid "Save to File"
-msgstr "Tallenna tiedostoon"
-
-#: /home/ruben/Projects/Uranium/plugins/LocalFileOutputDevice/LocalFileOutputDevicePlugin.py:124
-msgctxt "@title:window"
-msgid "File Already Exists"
-msgstr "Tiedosto on jo olemassa"
-
-#: /home/ruben/Projects/Uranium/plugins/LocalFileOutputDevice/LocalFileOutputDevicePlugin.py:124
-#, python-brace-format
-msgctxt "@label"
-msgid ""
-"The file <filename>{0}</filename> already exists. Are you sure you want to "
-"overwrite it?"
-msgstr ""
-"Tiedosto <filename>{0}</filename> on jo olemassa. Haluatko varmasti "
-"kirjoittaa sen päälle?"
-
-#: /home/ruben/Projects/Uranium/plugins/LocalFileOutputDevice/LocalFileOutputDevicePlugin.py:149
-#, python-brace-format
-msgctxt "@info:progress"
-msgid "Saving to <filename>{0}</filename>"
-msgstr "Tallennetaan tiedostoon <filename>{0}</filename>"
-
-#: /home/ruben/Projects/Uranium/plugins/LocalFileOutputDevice/LocalFileOutputDevicePlugin.py:157
-#, python-brace-format
-msgctxt "@info:status"
-msgid "Permission denied when trying to save <filename>{0}</filename>"
-msgstr "Lupa evätty yritettäessä tallentaa tiedostoon <filename>{0}</filename>"
-
-#: /home/ruben/Projects/Uranium/plugins/LocalFileOutputDevice/LocalFileOutputDevicePlugin.py:160
-#: /home/ruben/Projects/Uranium/plugins/LocalFileOutputDevice/LocalFileOutputDevicePlugin.py:182
-#, python-brace-format
-msgctxt "@info:status"
-msgid "Could not save to <filename>{0}</filename>: <message>{1}</message>"
-msgstr ""
-"Ei voitu tallentaa tiedostoon <filename>{0}</filename>: <message>{1}</"
-"message>"
-
-#: /home/ruben/Projects/Uranium/plugins/LocalFileOutputDevice/LocalFileOutputDevicePlugin.py:176
-#, python-brace-format
-msgctxt "@info:status"
-msgid "Saved to <filename>{0}</filename>"
-msgstr "Tallennettu tiedostoon <filename>{0}</filename>"
-
-#: /home/ruben/Projects/Uranium/plugins/LocalFileOutputDevice/LocalFileOutputDevicePlugin.py:177
-msgctxt "@action:button"
-msgid "Open Folder"
-msgstr "Avaa kansio"
-
-#: /home/ruben/Projects/Uranium/plugins/LocalFileOutputDevice/LocalFileOutputDevicePlugin.py:177
-msgctxt "@info:tooltip"
-msgid "Open the folder containing the file"
-msgstr "Avaa tiedoston sisältävän kansion"
 
 #: /home/ruben/Projects/Uranium/plugins/LocalFileOutputDevice/__init__.py:12
 msgctxt "@label"
@@ -251,6 +170,72 @@ msgstr "Paikallisen tiedoston tulostusväline"
 msgctxt "@info:whatsthis"
 msgid "Enables saving to local files."
 msgstr "Mahdollistaa tallennuksen paikallisiin tiedostoihin."
+
+#: /home/ruben/Projects/Uranium/plugins/LocalFileOutputDevice/LocalFileOutputDevice.py:33
+msgctxt "@item:inmenu"
+msgid "Local File"
+msgstr "Paikallinen tiedosto"
+
+#: /home/ruben/Projects/Uranium/plugins/LocalFileOutputDevice/LocalFileOutputDevice.py:34
+msgctxt "@action:button Preceded by 'Ready to'."
+msgid "Save to File"
+msgstr "Tallenna tiedostoon"
+
+#: /home/ruben/Projects/Uranium/plugins/LocalFileOutputDevice/LocalFileOutputDevice.py:35
+msgctxt "@info:tooltip"
+msgid "Save to File"
+msgstr "Tallenna tiedostoon"
+
+#: /home/ruben/Projects/Uranium/plugins/LocalFileOutputDevice/LocalFileOutputDevice.py:56
+msgctxt "@title:window"
+msgid "Save to File"
+msgstr "Tallenna tiedostoon"
+
+#: /home/ruben/Projects/Uranium/plugins/LocalFileOutputDevice/LocalFileOutputDevice.py:129
+msgctxt "@title:window"
+msgid "File Already Exists"
+msgstr "Tiedosto on jo olemassa"
+
+#: /home/ruben/Projects/Uranium/plugins/LocalFileOutputDevice/LocalFileOutputDevice.py:129
+#, python-brace-format
+msgctxt "@label"
+msgid "The file <filename>{0}</filename> already exists. Are you sure you want to overwrite it?"
+msgstr "Tiedosto <filename>{0}</filename> on jo olemassa. Haluatko varmasti kirjoittaa sen päälle?"
+
+#: /home/ruben/Projects/Uranium/plugins/LocalFileOutputDevice/LocalFileOutputDevice.py:158
+#, python-brace-format
+msgctxt "@info:progress"
+msgid "Saving to <filename>{0}</filename>"
+msgstr "Tallennetaan tiedostoon <filename>{0}</filename>"
+
+#: /home/ruben/Projects/Uranium/plugins/LocalFileOutputDevice/LocalFileOutputDevice.py:166
+#, python-brace-format
+msgctxt "@info:status"
+msgid "Permission denied when trying to save <filename>{0}</filename>"
+msgstr "Lupa evätty yritettäessä tallentaa tiedostoon <filename>{0}</filename>"
+
+#: /home/ruben/Projects/Uranium/plugins/LocalFileOutputDevice/LocalFileOutputDevice.py:169
+#: /home/ruben/Projects/Uranium/plugins/LocalFileOutputDevice/LocalFileOutputDevice.py:185
+#, python-brace-format
+msgctxt "@info:status"
+msgid "Could not save to <filename>{0}</filename>: <message>{1}</message>"
+msgstr "Ei voitu tallentaa tiedostoon <filename>{0}</filename>: <message>{1}</message>"
+
+#: /home/ruben/Projects/Uranium/plugins/LocalFileOutputDevice/LocalFileOutputDevice.py:179
+#, python-brace-format
+msgctxt "@info:status"
+msgid "Saved to <filename>{0}</filename>"
+msgstr "Tallennettu tiedostoon <filename>{0}</filename>"
+
+#: /home/ruben/Projects/Uranium/plugins/LocalFileOutputDevice/LocalFileOutputDevice.py:180
+msgctxt "@action:button"
+msgid "Open Folder"
+msgstr "Avaa kansio"
+
+#: /home/ruben/Projects/Uranium/plugins/LocalFileOutputDevice/LocalFileOutputDevice.py:180
+msgctxt "@info:tooltip"
+msgid "Open the folder containing the file"
+msgstr "Avaa tiedoston sisältävän kansion"
 
 #: /home/ruben/Projects/Uranium/plugins/Tools/ScaleTool/__init__.py:13
 msgctxt "@label"
@@ -352,36 +337,36 @@ msgctxt "@info:tooltip"
 msgid "Mirror Model"
 msgstr "Peilaa mallia"
 
-#: /home/ruben/Projects/Uranium/UM/Settings/Models/InstanceContainersModel.py:157
+#: /home/ruben/Projects/Uranium/UM/Settings/Models/InstanceContainersModel.py:161
 #: /home/ruben/Projects/Uranium/UM/Qt/Bindings/MeshFileHandlerProxy.py:48
-#: /home/ruben/Projects/Uranium/UM/FileHandler/FileHandler.py:65
+#: /home/ruben/Projects/Uranium/UM/PluginRegistry.py:66
+#: /home/ruben/Projects/Uranium/UM/FileHandler/FileHandler.py:67
 #, python-brace-format
 msgctxt "@item:inlistbox"
 msgid "All Supported Types ({0})"
 msgstr "Kaikki tuetut tyypit ({0})"
 
-#: /home/ruben/Projects/Uranium/UM/Settings/Models/InstanceContainersModel.py:160
+#: /home/ruben/Projects/Uranium/UM/Settings/Models/InstanceContainersModel.py:164
 #: /home/ruben/Projects/Uranium/UM/Qt/Bindings/MeshFileHandlerProxy.py:49
-#: /home/ruben/Projects/Uranium/UM/FileHandler/FileHandler.py:66
+#: /home/ruben/Projects/Uranium/UM/PluginRegistry.py:67
+#: /home/ruben/Projects/Uranium/UM/FileHandler/FileHandler.py:68
 msgctxt "@item:inlistbox"
 msgid "All Files (*)"
 msgstr "Kaikki tiedostot (*)"
 
-#: /home/ruben/Projects/Uranium/UM/Qt/Duration.py:95
+#: /home/ruben/Projects/Uranium/UM/Qt/Duration.py:104
 #, python-brace-format
-msgctxt ""
-"@label Short days-hours-minutes format. {0} is days, {1} is hours, {2} is "
-"minutes"
+msgctxt "@label Short days-hours-minutes format. {0} is days, {1} is hours, {2} is minutes"
 msgid "{0:0>2}d {1:0>2}h {2:0>2}min"
 msgstr "{0:0>2} p {1:0>2} h {2:0>2} min"
 
-#: /home/ruben/Projects/Uranium/UM/Qt/Duration.py:97
+#: /home/ruben/Projects/Uranium/UM/Qt/Duration.py:106
 #, python-brace-format
 msgctxt "@label Short hours-minutes format. {0} is hours, {1} is minutes"
 msgid "{0:0>2}h {1:0>2}min"
 msgstr "{0:0>2} h {1:0>2} min"
 
-#: /home/ruben/Projects/Uranium/UM/Qt/Duration.py:100
+#: /home/ruben/Projects/Uranium/UM/Qt/Duration.py:109
 #, python-brace-format
 msgctxt "@label Long duration format. {0} is days"
 msgid "{0} day"
@@ -389,8 +374,8 @@ msgid_plural "{0} days"
 msgstr[0] "{0} päivä"
 msgstr[1] "{0} päivää"
 
-#: /home/ruben/Projects/Uranium/UM/Qt/Duration.py:100
-#: /home/ruben/Projects/Uranium/UM/Qt/Duration.py:102
+#: /home/ruben/Projects/Uranium/UM/Qt/Duration.py:109
+#: /home/ruben/Projects/Uranium/UM/Qt/Duration.py:111
 #, python-brace-format
 msgctxt "@label Long duration format. {0} is hours"
 msgid "{0} hour"
@@ -398,9 +383,9 @@ msgid_plural "{0} hours"
 msgstr[0] "{0} tunti"
 msgstr[1] "{0} tuntia"
 
-#: /home/ruben/Projects/Uranium/UM/Qt/Duration.py:100
-#: /home/ruben/Projects/Uranium/UM/Qt/Duration.py:102
-#: /home/ruben/Projects/Uranium/UM/Qt/Duration.py:104
+#: /home/ruben/Projects/Uranium/UM/Qt/Duration.py:109
+#: /home/ruben/Projects/Uranium/UM/Qt/Duration.py:111
+#: /home/ruben/Projects/Uranium/UM/Qt/Duration.py:113
 #, python-brace-format
 msgctxt "@label Long duration format. {0} is minutes"
 msgid "{0} minute"
@@ -408,32 +393,58 @@ msgid_plural "{0} minutes"
 msgstr[0] "{0} minuutti"
 msgstr[1] "{0} minuuttia"
 
-#: /home/ruben/Projects/Uranium/UM/Qt/QtApplication.py:87
+#: /home/ruben/Projects/Uranium/UM/Qt/QtApplication.py:109
 msgctxt "@info:progress"
 msgid "Loading plugins..."
 msgstr "Ladataan lisäosia..."
 
-#: /home/ruben/Projects/Uranium/UM/Qt/QtApplication.py:93
+#: /home/ruben/Projects/Uranium/UM/Qt/QtApplication.py:115
 msgctxt "@info:progress"
 msgid "Updating configuration..."
 msgstr "Päivitetään määrityksiä..."
 
-#: /home/ruben/Projects/Uranium/UM/Qt/QtApplication.py:104
+#: /home/ruben/Projects/Uranium/UM/Qt/QtApplication.py:126
 msgctxt "@info:progress"
 msgid "Loading preferences..."
 msgstr "Ladataan lisäasetuksia..."
 
-#: /home/ruben/Projects/Uranium/UM/Mesh/ReadMeshJob.py:63
+#: /home/ruben/Projects/Uranium/UM/Mesh/ReadMeshJob.py:67
 #, python-format, python-brace-format
 msgctxt "@info:status"
 msgid "Auto scaled object to {0}% of original size"
 msgstr "Kappale skaalattu automaattisesti {0} %:iin alkuperäisestä koosta"
 
-#: /home/ruben/Projects/Uranium/UM/VersionUpgradeManager.py:109
+#: /home/ruben/Projects/Uranium/UM/PluginRegistry.py:84
+#: /home/ruben/Projects/Uranium/UM/PluginRegistry.py:92
+#, python-brace-format
+msgctxt "@info:status"
+msgid ""
+"Failed to install plugin from <filename>{0}</filename>:\n"
+"<message>{1}</message>"
+msgstr "Laajennuksen asennus kohteesta <filename>{0}</filename> epäonnistui:\n<message>{1}</message>"
+
+#: /home/ruben/Projects/Uranium/UM/PluginRegistry.py:94
+msgctxt "@info:status"
+msgid ""
+"The plugin has been installed.\n"
+" Please re-start the application to active the plugin."
+msgstr "Laajennus on asennettu.\n Ota laajennus käyttöön käynnistämällä sovellus uudelleen."
+
+#: /home/ruben/Projects/Uranium/UM/VersionUpgradeManager.py:122
 #, python-brace-format
 msgctxt "@info:version-upgrade"
 msgid "A configuration from an older version of {0} was imported."
 msgstr "Aikaisemman {0} -version määritykset tuotiin."
+
+#: /home/ruben/Projects/Uranium/UM/View/GL/OpenGL.py:45
+msgctxt "@message"
+msgid "Failed to Initialize OpenGL"
+msgstr "OpenGL:n alustus epäonnistui"
+
+#: /home/ruben/Projects/Uranium/UM/View/GL/OpenGL.py:55
+msgctxt "Critical OpenGL Extensions Missing"
+msgid "Critical OpenGL extensions are missing. This program requires support for Framebuffer Objects. Please check your video card drivers."
+msgstr "Kriittisiä OpenGL-lisäosia puuttuu. Tämä ohjelma vaatii tuen Framebuffer-objekteille. Tarkista näytönohjaimen ajurit."
 
 #: /home/ruben/Projects/Uranium/UM/FileHandler/ReadFileJob.py:36
 #, python-brace-format
@@ -441,14 +452,14 @@ msgctxt "@info:status"
 msgid "Cannot open file type <filename>{0}</filename>"
 msgstr "Ei voida avata tiedostotyyppiä <filename>{0}</filename>"
 
-#: /home/ruben/Projects/Uranium/UM/FileHandler/ReadFileJob.py:45
-#: /home/ruben/Projects/Uranium/UM/FileHandler/ReadFileJob.py:65
+#: /home/ruben/Projects/Uranium/UM/FileHandler/ReadFileJob.py:49
+#: /home/ruben/Projects/Uranium/UM/FileHandler/ReadFileJob.py:69
 #, python-brace-format
 msgctxt "@info:status"
 msgid "Failed to load <filename>{0}</filename>"
 msgstr "Tiedoston <filename>{0}</filename> lataaminen epäonnistui"
 
-#: /home/ruben/Projects/Uranium/UM/FileHandler/ReadFileJob.py:49
+#: /home/ruben/Projects/Uranium/UM/FileHandler/ReadFileJob.py:53
 #, python-brace-format
 msgctxt "@info:status"
 msgid "Loading <filename>{0}</filename>"
@@ -480,38 +491,63 @@ msgctxt "@action:checkbox"
 msgid "Snap Rotation"
 msgstr "Kohdista pyöritys"
 
-#: /home/ruben/Projects/Uranium/UM/Qt/qml/UM/Preferences/PluginsPage.qml:19
+#: /home/ruben/Projects/Uranium/UM/Qt/qml/UM/Preferences/PluginsPage.qml:20
 #: /home/ruben/Projects/Uranium/UM/Qt/qml/UM/Preferences/PreferencesDialog.qml:148
 msgctxt "@title:tab"
 msgid "Plugins"
 msgstr "Lisäosat"
 
-#: /home/ruben/Projects/Uranium/UM/Qt/qml/UM/Preferences/PluginsPage.qml:81
+#: /home/ruben/Projects/Uranium/UM/Qt/qml/UM/Preferences/PluginsPage.qml:28
+msgctxt "@action:button"
+msgid "Install new plugin"
+msgstr "Asenna uusi laajennus"
+
+#: /home/ruben/Projects/Uranium/UM/Qt/qml/UM/Preferences/PluginsPage.qml:55
+msgctxt "@label"
+msgid "You will need to restart the application before changes in plugins have effect."
+msgstr "Laajennusten muutokset eivät tule käyttöön ennen kuin olet käynnistänyt sovelluksen uudelleen."
+
+#: /home/ruben/Projects/Uranium/UM/Qt/qml/UM/Preferences/PluginsPage.qml:93
+msgctxt "@label"
+msgid "This plugin is required for the application to run."
+msgstr "Sovellus ei toimi ilman tätä laajennusta."
+
+#: /home/ruben/Projects/Uranium/UM/Qt/qml/UM/Preferences/PluginsPage.qml:110
 msgctxt "@label"
 msgid "Info..."
 msgstr "Tietoja..."
 
-#: /home/ruben/Projects/Uranium/UM/Qt/qml/UM/Preferences/PluginsPage.qml:101
+#: /home/ruben/Projects/Uranium/UM/Qt/qml/UM/Preferences/PluginsPage.qml:128
+msgctxt "@window:title"
+msgid "Install Plugin"
+msgstr "Asenna laajennus"
+
+#: /home/ruben/Projects/Uranium/UM/Qt/qml/UM/Preferences/PluginsPage.qml:137
+msgctxt "@title:window"
+msgid "Open file(s)"
+msgstr "Avaa tiedosto(t)"
+
+#: /home/ruben/Projects/Uranium/UM/Qt/qml/UM/Preferences/PluginsPage.qml:171
 msgctxt "@label"
 msgid "No text available"
 msgstr "Ei tekstiä saatavilla"
 
-#: /home/ruben/Projects/Uranium/UM/Qt/qml/UM/Preferences/PluginsPage.qml:107
+#: /home/ruben/Projects/Uranium/UM/Qt/qml/UM/Preferences/PluginsPage.qml:177
 msgctxt "@title:window"
 msgid "About %1"
 msgstr "Tietoja: %1"
 
-#: /home/ruben/Projects/Uranium/UM/Qt/qml/UM/Preferences/PluginsPage.qml:139
+#: /home/ruben/Projects/Uranium/UM/Qt/qml/UM/Preferences/PluginsPage.qml:209
 msgctxt "@label"
 msgid "Author:"
 msgstr "Tekijä:"
 
-#: /home/ruben/Projects/Uranium/UM/Qt/qml/UM/Preferences/PluginsPage.qml:161
+#: /home/ruben/Projects/Uranium/UM/Qt/qml/UM/Preferences/PluginsPage.qml:231
 msgctxt "@label"
 msgid "Version:"
 msgstr "Versio:"
 
-#: /home/ruben/Projects/Uranium/UM/Qt/qml/UM/Preferences/PluginsPage.qml:179
+#: /home/ruben/Projects/Uranium/UM/Qt/qml/UM/Preferences/PluginsPage.qml:249
 #: /home/ruben/Projects/Uranium/UM/Qt/qml/UM/Preferences/PreferencesDialog.qml:113
 msgctxt "@action:button"
 msgid "Close"
@@ -555,25 +591,15 @@ msgstr "OK"
 
 #: /home/ruben/Projects/Uranium/UM/Qt/qml/UM/Preferences/SettingVisibilityItem.qml:31
 msgctxt "@item:tooltip"
-msgid ""
-"This setting has been hidden by the active machine and will not be visible."
-msgstr ""
-"Tämä asetus ei ole näkyvissä, koska aktiivinen laite on piilottanut sen."
+msgid "This setting has been hidden by the active machine and will not be visible."
+msgstr "Tämä asetus ei ole näkyvissä, koska aktiivinen laite on piilottanut sen."
 
 #: /home/ruben/Projects/Uranium/UM/Qt/qml/UM/Preferences/SettingVisibilityItem.qml:48
 msgctxt "@item:tooltip %1 is list of setting names"
-msgid ""
-"This setting has been hidden by the value of %1. Change the value of that "
-"setting to make this setting visible."
-msgid_plural ""
-"This setting has been hidden by the values of %1. Change the values of those "
-"settings to make this setting visible."
-msgstr[0] ""
-"Tämä asetus on piilotettu asetuksella %1. Tuo asetus näkyviin muuttamalla "
-"kyseisen asetuksen arvoa."
-msgstr[1] ""
-"Tämä asetus on piilotettu asetuksilla %1. Tuo asetus näkyviin muuttamalla "
-"kyseisten asetusten arvoja."
+msgid "This setting has been hidden by the value of %1. Change the value of that setting to make this setting visible."
+msgid_plural "This setting has been hidden by the values of %1. Change the values of those settings to make this setting visible."
+msgstr[0] "Tämä asetus on piilotettu asetuksella %1. Tuo asetus näkyviin muuttamalla kyseisen asetuksen arvoa."
+msgstr[1] "Tämä asetus on piilotettu asetuksilla %1. Tuo asetus näkyviin muuttamalla kyseisten asetusten arvoja."
 
 #: /home/ruben/Projects/Uranium/UM/Qt/qml/UM/Preferences/SettingVisibilityPage.qml:12
 msgctxt "@title:tab"
@@ -634,6 +660,11 @@ msgstr "Päivitä \"%1\""
 msgctxt "@action:button"
 msgid "Update profile"
 msgstr "Päivitä profiili"
+
+#: /home/ruben/Projects/Uranium/UM/Qt/qml/UM/Preferences/ProfilesPage.qml:92
+msgctxt "@action:button"
+msgid "Discard current changes"
+msgstr "Hylkää tehdyt muutokset"
 
 #: /home/ruben/Projects/Uranium/UM/Qt/qml/UM/Preferences/ProfilesPage.qml:93
 msgctxt "@action:button"
@@ -699,6 +730,18 @@ msgstr "Lopeta"
 msgctxt "@action:button"
 msgid "Next"
 msgstr "Seuraava"
+
+#~ msgctxt "@label"
+#~ msgid "Wireframe View"
+#~ msgstr "Rautalankanäkymä"
+
+#~ msgctxt "@info:whatsthis"
+#~ msgid "Provides a simple wireframe view."
+#~ msgstr "Näyttää yksinkertaisen rautalankanäkymän."
+
+#~ msgctxt "@info"
+#~ msgid "An exception occured while parsing the JSON file."
+#~ msgstr "JSON-tiedostoa jäsennettäessä tapahtui poikkeus."
 
 #~ msgctxt "@label"
 #~ msgid "3MF Writer"

@@ -11,7 +11,7 @@ class FixtureApplication(Application):
     def __init__(self):
         Application._instance = None
         super().__init__("test", "1.0")
-        Signal._app = self
+        Signal._signalQueue = self
 
     def functionEvent(self, event):
         event.call()
@@ -27,6 +27,7 @@ def application():
 def plugin_registry(application):
     PluginRegistry._PluginRegistry__instance = None
     plugin_registry = PluginRegistry.getInstance()
+    plugin_registry._plugin_locations = [] # Clear pre-defined plugin locations
     plugin_registry.setApplication(application)
     return plugin_registry
 

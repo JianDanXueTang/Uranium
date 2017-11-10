@@ -2,6 +2,7 @@
 # Uranium is released under the terms of the AGPLv3 or higher.
 
 from UM.Tool import Tool
+from UM.Preferences import Preferences
 from UM.Event import Event, MouseEvent, KeyEvent
 from UM.Math.Vector import Vector
 from UM.Math.Matrix import Matrix
@@ -23,7 +24,7 @@ class CameraTool(Tool):
         self._yaw = 0
         self._pitch = 0
         self._origin = Vector(0, 0, 0)
-        self._min_zoom = 0
+        self._min_zoom = 1
         self._max_zoom = 2000.0
         self._manual_zoom = 200
 
@@ -39,6 +40,15 @@ class CameraTool(Tool):
         self._start_y = None
 
         self._drag_distance = 0.05
+
+        Preferences.getInstance().addPreference("view/invert_zoom", False)
+        self._invert_zoom = Preferences.getInstance().getValue("view/invert_zoom")
+        Preferences.getInstance().preferenceChanged.connect(self._onPreferencesChanged)
+
+    def _onPreferencesChanged(self, name):
+        if name != "view/invert_zoom":
+            return
+        self._invert_zoom = Preferences.getInstance().getValue("view/invert_zoom")
 
     ##  Set the minimum and maximum distance from the origin used for "zooming" the camera
     #
@@ -68,8 +78,8 @@ class CameraTool(Tool):
     #   \param event type(Event) event passed from event handler
     def checkModifierKeys(self, event):
         modifiers = QtWidgets.QApplication.keyboardModifiers()
-        self._shift_is_active = modifiers == QtCore.Qt.ShiftModifier
-        self._ctrl_is_active = modifiers == QtCore.Qt.ControlModifier
+        self._shift_is_active = (modifiers & QtCore.Qt.ShiftModifier) != QtCore.Qt.NoModifier
+        self._ctrl_is_active = (modifiers & QtCore.Qt.ControlModifier) != QtCore.Qt.NoModifier
         # Checks for the press and release event of the space key
         if event.type is Event.KeyPressEvent:
             if event.key == KeyEvent.SpaceKey:
@@ -107,6 +117,8 @@ class CameraTool(Tool):
     def initiateZoom(self, event):
         if event.type is event.MousePressEvent:
             return False
+        elif event.type is Event.MouseMoveEvent and self._space_is_active is False: #space -> mousemove
+            self._start_y = None
         elif event.type is Event.MouseMoveEvent and self._space_is_active is True:  # space -> mousemove
                 if self._start_y is None:
                     self._start_y = event.y
@@ -214,6 +226,10 @@ class CameraTool(Tool):
         r = (camera.getWorldPosition() - self._origin).length()
         delta = r * (zoom_range / 128 / 10.0)
         r -= delta
+
+        if self._invert_zoom:
+            delta *= -1
+
         if delta > 0:
             if r > self._min_zoom:
                 camera.translate(Vector(0.0, 0.0, -delta))

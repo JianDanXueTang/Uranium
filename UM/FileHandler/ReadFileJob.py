@@ -38,7 +38,11 @@ class ReadFileJob(Job):
             return
 
         # Give the plugin a chance to display a dialog before showing the loading UI
-        pre_read_result = reader.preRead(self._filename)
+        try:
+            pre_read_result = reader.preRead(self._filename)
+        except:
+            Logger.logException("e", "Failed to pre-read the file %s", self._filename)
+            pre_read_result = MeshReader.PreReadResult.failed
 
         if pre_read_result != MeshReader.PreReadResult.accepted:
             if pre_read_result == MeshReader.PreReadResult.failed:
@@ -56,7 +60,7 @@ class ReadFileJob(Job):
             begin_time = time.time()
             self.setResult(self._handler.readerRead(reader, self._filename))
             end_time = time.time()
-            Logger.log("d", "Loading file took %s seconds", end_time - begin_time)
+            Logger.log("d", "Loading file took %0.1f seconds", end_time - begin_time)
         except:
             Logger.logException("e", "Exception occurred while loading file %s", self._filename)
         finally:
