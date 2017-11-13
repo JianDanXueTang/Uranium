@@ -6,12 +6,10 @@ from UM.Settings.ContainerRegistry import ContainerRegistry
 
 def getMetaData():
     return {
-        "plugin": {
-            "name": "TestContainerPlugin",
-            "api": 3
+        "settings_container": {
+            "mimetype": "application/x-uranium-test"
         }
     }
 
 def register(app):
-    ContainerRegistry.getInstance().addContainerType(ContainerTestPlugin())
-    return { "test": ContainerTestPlugin() }
+    return { "settings_container": ContainerTestPlugin() }

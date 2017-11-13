@@ -4,14 +4,15 @@
 import sys
 import os
 import signal
-import platform
 
-from PyQt5.QtCore import Qt, QObject, QCoreApplication, QEvent, pyqtSlot, QLocale, QTranslator, QLibraryInfo, QT_VERSION_STR, PYQT_VERSION_STR
-from PyQt5.QtQml import QQmlApplicationEngine, qmlRegisterType, qmlRegisterSingletonType
-from PyQt5.QtWidgets import QApplication, QSplashScreen
+
+from PyQt5.QtCore import Qt, QCoreApplication, QEvent, QUrl, pyqtProperty, pyqtSignal, pyqtSlot, QLocale, QTranslator, QLibraryInfo, QT_VERSION_STR, PYQT_VERSION_STR
+from PyQt5.QtQml import QQmlApplicationEngine
+from PyQt5.QtWidgets import QApplication, QSplashScreen, QMessageBox
 from PyQt5.QtGui import QGuiApplication, QPixmap
 from PyQt5.QtCore import QTimer
 
+from UM.FileHandler.ReadFileJob import ReadFileJob
 from UM.Application import Application
 from UM.Qt.QtRenderer import QtRenderer
 from UM.Qt.Bindings.Bindings import Bindings
@@ -20,9 +21,16 @@ from UM.Resources import Resources
 from UM.Logger import Logger
 from UM.Preferences import Preferences
 from UM.i18n import i18nCatalog
-import UM.Settings.InstanceContainer #For version upgrade to know the version number.
-import UM.Settings.ContainerStack #For version upgrade to know the version number.
-import UM.Preferences #For version upgrade to know the version number.
+from UM.JobQueue import JobQueue
+from UM.View.GL.OpenGLContext import OpenGLContext
+import UM.Settings.InstanceContainer  # For version upgrade to know the version number.
+import UM.Settings.ContainerStack  # For version upgrade to know the version number.
+import UM.Preferences  # For version upgrade to know the version number.
+import UM.VersionUpgradeManager
+from UM.Mesh.ReadMeshJob import ReadMeshJob
+
+import UM.Qt.Bindings.Theme
+from UM.PluginRegistry import PluginRegistry
 
 # Raised when we try to use an unsupported version of a dependency.
 class UnsupportedVersionError(Exception):
@@ -32,6 +40,7 @@ class UnsupportedVersionError(Exception):
 major, minor = PYQT_VERSION_STR.split(".")[0:2]
 if int(major) < 5 or int(minor) < 4:
     raise UnsupportedVersionError("This application requires at least PyQt 5.4.0")
+
 
 ##  Application subclass that provides a Qt application object.
 @signalemitter
@@ -55,20 +64,33 @@ class QtApplication(QApplication, Application):
             QCoreApplication.addLibraryPath(plugin_path)
 
         os.environ["QSG_RENDER_LOOP"] = "basic"
+
         super().__init__(sys.argv, **kwargs)
 
-        self._plugins_loaded = False #Used to determine when it's safe to use the plug-ins.
+        self.setAttribute(Qt.AA_UseDesktopOpenGL)
+        major_version, minor_version, profile = OpenGLContext.detectBestOpenGLVersion()
+
+        if major_version is None and minor_version is None and profile is None:
+            Logger.log("e", "Startup failed because OpenGL version probing has failed: tried to create a 2.0 and 4.1 context. Exiting")
+            QMessageBox.critical(None, "Failed to probe OpenGL",
+                "Could not probe OpenGL. This program requires OpenGL 2.0 or higher. Please check your video card drivers.")
+            sys.exit(1)
+        else:
+            Logger.log("d", "Detected most suitable OpenGL context version: %s" % (
+                OpenGLContext.versionAsText(major_version, minor_version, profile)))
+        OpenGLContext.setDefaultFormat(major_version, minor_version, profile = profile)
+
+        self._plugins_loaded = False  # Used to determine when it's safe to use the plug-ins.
         self._main_qml = "main.qml"
         self._engine = None
         self._renderer = None
         self._main_window = None
+        self._theme = None
 
         self._shutting_down = False
         self._qml_import_paths = []
         self._qml_import_paths.append(os.path.join(os.path.dirname(sys.executable), "qml"))
         self._qml_import_paths.append(os.path.join(Application.getInstallPrefix(), "Resources", "qml"))
-
-        self.setAttribute(Qt.AA_UseDesktopOpenGL)
 
         try:
             self._splash = self._createSplashScreen()
@@ -93,13 +115,13 @@ class QtApplication(QApplication, Application):
         self.showSplashMessage(i18n_catalog.i18nc("@info:progress", "Updating configuration..."))
         upgraded = UM.VersionUpgradeManager.VersionUpgradeManager.getInstance().upgrade()
         if upgraded:
-            preferences = UM.Preferences.getInstance() #Preferences might have changed. Load them again.
-                                                       #Note that the language can't be updated, so that will always revert to English.
+            # Preferences might have changed. Load them again.
+            # Note that the language can't be updated, so that will always revert to English.
+            preferences = Preferences.getInstance()
             try:
                 preferences.readFromFile(Resources.getPath(Resources.Preferences, self._application_name + ".cfg"))
             except FileNotFoundError:
                 pass
-
 
         self.showSplashMessage(i18n_catalog.i18nc("@info:progress", "Loading preferences..."))
         try:
@@ -107,6 +129,45 @@ class QtApplication(QApplication, Application):
             Preferences.getInstance().readFromFile(file)
         except FileNotFoundError:
             pass
+
+        self.getApplicationName()
+
+        Preferences.getInstance().addPreference("%s/recent_files" % self.getApplicationName(), "")
+
+        self._recent_files = []
+        files = Preferences.getInstance().getValue("%s/recent_files" % self.getApplicationName()).split(";")
+        for f in files:
+            if not os.path.isfile(f):
+                continue
+
+            self._recent_files.append(QUrl.fromLocalFile(f))
+
+        JobQueue.getInstance().jobFinished.connect(self._onJobFinished)
+
+    recentFilesChanged = pyqtSignal()
+
+    @pyqtProperty("QVariantList", notify=recentFilesChanged)
+    def recentFiles(self):
+        return self._recent_files
+
+    def _onJobFinished(self, job):
+        if (not isinstance(job, ReadMeshJob) and not isinstance(job, ReadFileJob)) or not job.getResult():
+            return
+
+        f = QUrl.fromLocalFile(job.getFileName())
+        if f in self._recent_files:
+            self._recent_files.remove(f)
+
+        self._recent_files.insert(0, f)
+        if len(self._recent_files) > 10:
+            del self._recent_files[10]
+
+        pref = ""
+        for path in self._recent_files:
+            pref += path.toLocalFile() + ";"
+
+        Preferences.getInstance().setValue("%s/recent_files" % self.getApplicationName(), pref)
+        self.recentFilesChanged.emit()
 
     def run(self):
         pass
@@ -153,7 +214,7 @@ class QtApplication(QApplication, Application):
         return self._shutting_down
 
     def registerObjects(self, engine):
-        pass
+        engine.rootContext().setContextProperty("PluginRegistry", PluginRegistry.getInstance())
 
     def getRenderer(self):
         if not self._renderer:
@@ -161,15 +222,14 @@ class QtApplication(QApplication, Application):
 
         return self._renderer
 
+    @classmethod
     def addCommandLineOptions(self, parser):
+        super().addCommandLineOptions(parser)
         parser.add_argument("--disable-textures",
                             dest="disable-textures",
                             action="store_true", default=False,
                             help="Disable Qt texture loading as a workaround for certain crashes.")
-
-    #   Overridden from QApplication::setApplicationName to call our internal setApplicationName
-    def setApplicationName(self, name):
-        Application.setApplicationName(self, name)
+        parser.add_argument("-qmljsdebugger", help="For Qt's QML debugger compatibility")
 
     mainWindowChanged = Signal()
 
@@ -180,6 +240,15 @@ class QtApplication(QApplication, Application):
         if window != self._main_window:
             self._main_window = window
             self.mainWindowChanged.emit()
+
+    def getTheme(self, *args):
+        if self._theme is None:
+            if self._engine is None:
+                Logger.log("e", "The theme cannot be accessed before the engine is initialised")
+                return None
+
+            self._theme = UM.Qt.Bindings.Theme.Theme.getInstance(self._engine)
+        return self._theme
 
     #   Handle a function that should be called later.
     def functionEvent(self, event):
@@ -215,6 +284,13 @@ class QtApplication(QApplication, Application):
 
         self.quit()
 
+    ##  Get the backend of the application (the program that does the heavy lifting).
+    #   The backend is also a QObject, which can be used from qml.
+    #   \returns Backend \type{Backend}
+    @pyqtSlot(result="QObject*")
+    def getBackend(self):
+        return self._backend
+
     ##  Load a Qt translation catalog.
     #
     #   This method will locate, load and install a Qt message catalog that can be used
@@ -231,7 +307,7 @@ class QtApplication(QApplication, Application):
     #   \note When `language` is `default`, the language to load can be changed with the
     #         environment variable "LANGUAGE".
     def loadQtTranslation(self, file, language = "default"):
-        #TODO Add support for specifying a language from preferences
+        # TODO Add support for specifying a language from preferences
         path = None
         if language == "default":
             path = self._getDefaultLanguage(file)
@@ -325,6 +401,7 @@ class QtApplication(QApplication, Application):
             pass
 
         return None
+
 
 ##  Internal.
 #

@@ -38,7 +38,13 @@ Item
         //First convert to fixed-point notation to round the number to 4 decimals and not introduce new floating point errors.
         //Then convert to a string (is implicit). The fixed-point notation will be something like "3.200".
         //Then remove any trailing zeroes and the radix.
-        return input.toFixed(decimals).replace(/\.?0*$/, ""); //Match on periods, if any ( \.? ), followed by any number of zeros ( 0* ), then the end of string ( $ ).
+        if(input)
+        {
+            return input.toFixed(decimals).replace(/\.?0*$/, ""); //Match on periods, if any ( \.? ), followed by any number of zeros ( 0* ), then the end of string ( $ ).
+        } else
+        {
+            return 0
+        }
     }
 
     Button
@@ -110,30 +116,30 @@ Item
         flow: Grid.TopToBottom;
         spacing: UM.Theme.getSize("default_margin").width / 2;
 
-        Label
+        Text
         {
             height: UM.Theme.getSize("setting_control").height;
             text: "X";
             font: UM.Theme.getFont("default");
-            color: "red"
+            color: UM.Theme.getColor("x_axis");
             verticalAlignment: Text.AlignVCenter;
         }
 
-        Label
+        Text
         {
             height: UM.Theme.getSize("setting_control").height;
             text: "Y";
             font: UM.Theme.getFont("default");
-            color: "green"
+            color: UM.Theme.getColor("z_axis"); // This is intentional. The internal axis are switched.
             verticalAlignment: Text.AlignVCenter;
         }
 
-        Label
+        Text
         {
             height: UM.Theme.getSize("setting_control").height;
             text: "Z";
             font: UM.Theme.getFont("default");
-            color: "blue"
+            color: UM.Theme.getColor("y_axis"); // This is intentional. The internal axis are switched.
             verticalAlignment: Text.AlignVCenter;
         }
 

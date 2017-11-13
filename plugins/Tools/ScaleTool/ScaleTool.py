@@ -15,6 +15,7 @@ from UM.Operations.GroupedOperation import GroupedOperation
 from UM.Operations.SetTransformOperation import SetTransformOperation
 from UM.Operations.ScaleToBoundsOperation import ScaleToBoundsOperation
 
+from PyQt5.QtCore import Qt
 from . import ScaleToolHandle
 
 import scipy
@@ -37,11 +38,15 @@ class ScaleTool(Tool):
         self._maximum_bounds = None
         self._move_up = True
 
+        self._shortcut_key = Qt.Key_A
+
         # We use the position of the scale handle when the operation starts.
         # This is done in order to prevent runaway reactions (drag changes of 100+)
         self._saved_handle_position = None  # for non uniform drag
         self._scale_sum = 0.0  # a memory for uniform drag with snap scaling
         self._last_event = None  # for uniform drag
+
+        self._saved_node_positions = []
 
         self.setExposedProperties(
             "ScaleSnap",
@@ -94,7 +99,7 @@ class ScaleTool(Tool):
             if not id:
                 return False
 
-            if ToolHandle.isAxis(id):
+            if self._handle.isAxis(id):
                 self.setLockedAxis(id)
             self._saved_handle_position = self._handle.getWorldPosition()
 

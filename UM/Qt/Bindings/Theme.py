@@ -1,10 +1,10 @@
 # Copyright (c) 2015 Ultimaker B.V.
 # Uranium is released under the terms of the AGPLv3 or higher.
 
-from PyQt5.QtCore import QObject, pyqtSlot, pyqtProperty, pyqtSignal, QCoreApplication, QUrl, QSizeF
+from PyQt5.QtCore import QObject, pyqtProperty, pyqtSignal, QCoreApplication, QUrl, QSizeF
 from PyQt5.QtGui import QColor, QFont, QFontMetrics, QFontDatabase, QFontInfo
 from PyQt5.QtQml import QQmlComponent, QQmlContext
-
+from UM.FlameProfiler import pyqtSlot
 import json
 import os
 import os.path
@@ -42,9 +42,48 @@ class Theme(QObject):
             theme_path = Resources.getPath(Resources.Themes, Preferences.getInstance().getValue("general/theme"))
             self.load(theme_path)
         except FileNotFoundError:
-            Logger.log("e", "Could not find theme file.")
+            Logger.log("e", "Could not find theme file, resetting to the default theme.")
+
+            # cannot the current theme, so go back to the default
+            Preferences.getInstance().setValue("general/theme", Application.getInstance().getApplicationName())
+            theme_path = Resources.getPath(Resources.Themes, Preferences.getInstance().getValue("general/theme"))
+            self.load(theme_path)
 
     themeLoaded = pyqtSignal()
+
+    @pyqtSlot(result = "QVariantList")
+    def getThemes(self):
+        themes = []
+        for path in Resources.getAllPathsForType(Resources.Themes):
+            try:
+                for file in os.listdir(path):
+                    folder = os.path.join(path, file)
+                    theme_file = os.path.join(folder, "theme.json")
+                    if os.path.isdir(folder) and os.path.isfile(theme_file):
+                        theme_id = os.path.basename(folder)
+
+                        with open(theme_file) as f:
+                            try:
+                                data = json.load(f)
+                            except json.decoder.JSONDecodeError:
+                                Logger.log("w", "Could not parse theme %s", theme_id)
+                                continue # do not add this theme to the list, but continue looking for other themes
+
+                            try:
+                                theme_name = data["metadata"]["name"]
+                            except KeyError:
+                                Logger.log("w", "Theme %s does not have a name; using its id instead", theme_id)
+                                theme_name = theme_id # fallback if no name is specified in json
+
+                        themes.append({
+                            "id": theme_id,
+                            "name": theme_name
+                        })
+            except FileNotFoundError:
+                pass
+        themes.sort(key = lambda k: k["name"])
+
+        return themes
 
     @pyqtSlot(str, result = "QColor")
     def getColor(self, color):
@@ -126,7 +165,14 @@ class Theme(QObject):
             Logger.log("d", "Loading theme file: %s", os.path.join(self._path, "theme.json"))
             data = json.load(f)
 
-        self._initializeDefaults()
+        # Iteratively load inherited themes
+        try:
+            theme_id = data["metadata"]["inherits"]
+            self.load(Resources.getPath(Resources.Themes, theme_id))
+        except FileNotFoundError:
+            Logger.log("e", "Could not find inherited theme %s", theme_id)
+        except KeyError:
+            pass # No metadata or no inherits keyword in the theme.json file
 
         if "colors" in data:
             for name, color in data["colors"].items():
@@ -202,6 +248,16 @@ class Theme(QObject):
             "line": QSizeF(self._em_width, self._em_height)
         }
 
-def createTheme(engine, script_engine):
-    return Theme(engine)
+    ##  Get the singleton instance for this class.
+    @classmethod
+    def getInstance(cls, engine = None):
+        # Note: Explicit use of class name to prevent issues with inheritance.
+        if Theme.__instance is None:
+            Theme.__instance = cls(engine)
+        return Theme.__instance
+
+    __instance = None   # type: 'Theme'
+
+def createTheme(engine, script_engine = None):
+    return Theme.getInstance(engine)
 

@@ -40,19 +40,6 @@ def test_interface():
     sub = cls()
     assert sub is not None
 
-    def declare_bad_interface():
-        @interface
-        class TestBadInterface:
-            def test(self):
-                raise NotImplementedError()
-
-            test_property = "Test"
-
-        return TestBadInterface
-
-    with pytest.raises(TypeError):
-        declare_bad_interface()
-
     def declare_bad_subclass():
         @interface
         class TestInterface:
@@ -96,3 +83,20 @@ def test_interface():
 
     with pytest.raises(NotImplementedError):
         declare_bad_signature()
+
+    #
+    # private functions should be ignored
+    #
+    def should_ignore_private_functions():
+        @interface
+        class TestInterface:
+            def __should_be_ignored(self):
+                pass
+
+        class TestSubClass(TestInterface):
+            pass
+
+        return TestSubClass()
+
+    sub = should_ignore_private_functions()
+    assert sub is not None
