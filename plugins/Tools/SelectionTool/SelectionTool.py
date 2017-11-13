@@ -1,5 +1,5 @@
 # Copyright (c) 2015 Ultimaker B.V.
-# Uranium is released under the terms of the AGPLv3 or higher.
+# Uranium is released under the terms of the LGPLv3 or higher.
 
 from UM.Event import MouseEvent, KeyEvent
 from UM.Tool import Tool
@@ -66,6 +66,8 @@ class SelectionTool(Tool):
                 self._pixelSelection(event)
             else:
                 self._boundingBoxSelection(event)
+        elif event.type == MouseEvent.MouseReleaseEvent and MouseEvent.LeftButton in event.buttons:
+            Application.getInstance().getController().toolOperationStopped.emit(self)
         return False
 
     ##  Handle mouse and keyboard events for bounding box selection

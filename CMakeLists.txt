@@ -18,19 +18,12 @@ find_package(PythonInterp 3.5.0 REQUIRED)
 add_custom_target(check)
 add_custom_command(TARGET check POST_BUILD COMMAND "PYTHONPATH=${CMAKE_SOURCE_DIR}" ${PYTHON_EXECUTABLE} -m pylint --rcfile=${CMAKE_SOURCE_DIR}/pylint.cfg UM --msg-template=\"{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}\" > ${CMAKE_BINARY_DIR}/pylint.log || exit 0 WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
+# # Check using Mypy
+add_custom_target(typecheck)
+add_custom_command(TARGET typecheck POST_BUILD COMMAND ${PYTHON_EXECUTABLE} run_mypy.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+
 # # Tests
-enable_testing()
-add_test(NAME pytest COMMAND ${PYTHON_EXECUTABLE} -m pytest -r a --junitxml=${CMAKE_BINARY_DIR}/junit.xml ${CMAKE_SOURCE_DIR})
-# Using untranslated strings on Linux
-if(UNIX AND NOT APPLE) 
-    set_tests_properties(pytest PROPERTIES ENVIRONMENT LANG=C)
-endif()
-# Adding PYTHONPATH on every OS
-set_tests_properties(pytest PROPERTIES ENVIRONMENT PYTHONPATH=${CMAKE_SOURCE_DIR})
-# Adding compatibility with our old tests target
-add_custom_target(tests
-                  COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} --target test
-                  COMMENT "Notice: tests target is deprecated, please use the test target")
+include(UraniumTests)
 
 # # Benchmarks
 # add_custom_target(benchmark)
@@ -52,10 +45,10 @@ add_custom_target(extract-messages ${CMAKE_SOURCE_DIR}/scripts/extract-messages 
 # Build Translations
 CREATE_TRANSLATION_TARGETS()
 
-if(APPLE OR WIN32)
-    install(DIRECTORY UM DESTINATION lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/site-packages)
-else()
+if(EXISTS /etc/debian_version)
     install(DIRECTORY UM DESTINATION lib/python${PYTHON_VERSION_MAJOR}/dist-packages)
+else()
+    install(DIRECTORY UM DESTINATION lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/site-packages)
 endif()
 install(FILES ${CMAKE_SOURCE_DIR}/cmake/UraniumTranslationTools.cmake
         DESTINATION ${CMAKE_INSTALL_DATADIR}/cmake-${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}/Modules/ )

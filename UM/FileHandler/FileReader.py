@@ -1,5 +1,5 @@
 # Copyright (c) 2016 Ultimaker B.V.
-# Uranium is released under the terms of the AGPLv3 or higher.
+# Uranium is released under the terms of the LGPLv3 or higher.
 
 import os
 from enum import Enum
@@ -35,7 +35,7 @@ class FileReader(PluginObject):
     #   this function should block until it has been closed.
     #
     #   \return \type{PreReadResult} indicating if the user accepted or canceled the dialog.
-    def preRead(self, file_name):
+    def preRead(self, file_name, *args, **kwargs):
         return FileReader.PreReadResult.accepted
 
     ##  Read mesh data from file and returns a node that contains the data

@@ -1,5 +1,5 @@
 # Copyright (c) 2015 Ultimaker B.V.
-# Uranium is released under the terms of the AGPLv3 or higher.
+# Uranium is released under the terms of the LGPLv3 or higher.
 
 from UM.Job import Job
 from UM.Application import Application
@@ -52,7 +52,11 @@ class ReadMeshJob(ReadFileJob):
                         pass
                     elif Preferences.getInstance().getValue("mesh/scale_tiny_meshes") == True and (scale_factor_width > 100 and scale_factor_height > 100 and scale_factor_depth > 100):
                         # Round scale factor to lower factor of 10 to scale tiny object up (eg convert m to mm units)
-                        scale_factor = math.pow(10, math.floor(math.log(scale_factor) / math.log(10)))
+                        try:
+                            scale_factor = math.pow(10, math.floor(math.log(scale_factor) / math.log(10)))
+                        except:
+                            # In certain cases the scale_factor can be inf which can make this fail. Just use 1 instead.
+                            scale_factor = 1
                     else:
                         scale_factor = 1
 
@@ -60,7 +64,7 @@ class ReadMeshJob(ReadFileJob):
                         scale_vector = Vector(scale_factor, scale_factor, scale_factor)
                         display_scale_factor = scale_factor * 100
 
-                        scale_message = Message(i18n_catalog.i18nc("@info:status", "Auto scaled object to {0}% of original size", ("%i" % display_scale_factor)))
+                        scale_message = Message(i18n_catalog.i18nc("@info:status", "Auto scaled object to {0}% of original size", ("%i" % display_scale_factor)), title = i18n_catalog.i18nc("@info:title", "Scaling Object"))
 
                         try:
                             node.scale(scale_vector)
