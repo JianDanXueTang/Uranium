@@ -76,12 +76,16 @@ class UpdateCheckerJob(Job):
                             newest_version = Version([int(value["major"]), int(value["minor"]), int(value["revision"])])
                             if local_version < newest_version:
                                 Logger.log("i", "Found a new version of the software. Spawning message")
-                                #message = Message(i18n_catalog.i18nc("@info", "A AAA new version is available!"))
+                                #message = Message(i18n_catalog.i18nc("@info", "A new version is available!"))
                                 #message.addAction("download", i18n_catalog.i18nc("@action:button", "Download"), "[no_icon]", "[no_description]")
                                 self._download_url = value["url"]
                                 message.actionTriggered.connect(self.actionTriggered)
                                 message.show()
-                                no_new_version = False
+                                
+                                #★
+                                #no_new_version = False
+                                no_new_version = True
+                                
                                 break
                     else:
                         Logger.log("w", "Could not find version information or download url for update.")
@@ -89,8 +93,12 @@ class UpdateCheckerJob(Job):
                 Logger.log("w", "Did not find any version information for %s." % application_name)
         except Exception:
             Logger.logException("e", "Exception in update checker while parsing the JSON file.")
-            Message(i18n_catalog.i18nc("@info", "An exception occurred while checking for updates.")).show()
-            no_new_version = False  # Just to suppress the message below.
+            
+            #★
+            #Message(i18n_catalog.i18nc("@info", "An exception occurred while checking for updates.")).show()
+            #no_new_version = False  # Just to suppress the message below.
+            no_new_version = True
 
         if no_new_version and not self.silent:
-            Message(i18n_catalog.i18nc("@info", "No new version was found.")).show()
+            #Message(i18n_catalog.i18nc("@info", "No new version was found.")).show()
+            Message(i18n_catalog.i18nc("@info", "")).show()
