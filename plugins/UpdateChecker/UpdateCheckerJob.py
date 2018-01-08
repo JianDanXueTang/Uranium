@@ -76,8 +76,8 @@ class UpdateCheckerJob(Job):
                             newest_version = Version([int(value["major"]), int(value["minor"]), int(value["revision"])])
                             if local_version < newest_version:
                                 Logger.log("i", "Found a new version of the software. Spawning message")
-                                message = Message(i18n_catalog.i18nc("@info", "A AAA new version is available!"))
-                                message.addAction("download", i18n_catalog.i18nc("@action:button", "Download"), "[no_icon]", "[no_description]")
+                                #message = Message(i18n_catalog.i18nc("@info", "A AAA new version is available!"))
+                                #message.addAction("download", i18n_catalog.i18nc("@action:button", "Download"), "[no_icon]", "[no_description]")
                                 self._download_url = value["url"]
                                 message.actionTriggered.connect(self.actionTriggered)
                                 message.show()
